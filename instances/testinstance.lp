@@ -61,8 +61,7 @@ buildtime(burner_miner, 5).
 buildingredient(burner_miner, stone, 10).
 
 % 6. Initial State
-% We start with nothing to force the hand-mining logic.
-globalstock_init(stone, 0).
+% We start with stone to allow immediate building of the miner.
 globalstock_init(ore, 0).
 
 % 7. Goals
@@ -71,7 +70,10 @@ globalstock_init(ore, 0).
 %   1. Hand-mine Stone (via 'craft').
 %   2. Use Stone to build a 'burner_miner' (via 'build').
 %   3. Wait for the miner to produce Ore (via 'runspeed'/'production').
+goalbuilding(burner_miner, 1).
 goalitem(ore, 10).
+
+globalstock_init(stone, 10).
 
 % (Optional) Force the miner to be built in Zone 1 explicitly, or let solver decide.
 % Here we let the solver decide, but the ore must exist somewhere.

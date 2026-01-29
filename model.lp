@@ -1,17 +1,17 @@
 #const horizon = 20. 
 #const num_zones = 3.
-#const scale = 1. 
+#const num_slots = 15.
 #const max_val = 1000. 
 
 time(0..horizon).
 step(0..horizon-1).
 zone(1..num_zones).
+slot(1..num_slots).
 
 %setup variables for stocks and buildings
 &dom{0..max_val} = globalstock(I, T) :- item(I), time(T).
 &dom{0..max_val} = localstock(I,Z,T) :- item(I), zone(Z), time(T).
 &dom{0..max_val} = buildingcount(B, Z, T) :- building(B), zone(Z), time(T).
-&dom{0..max_val} = actbuildingcount(B, Z, T) :- building(B), zone(Z), time(T).
 
 % Init either to set val or zero (depending on instance)
 &sum{ globalstock(I,0)} = N*scale :- globalstock_init(I, N).
@@ -42,25 +42,19 @@ finishbuild(B, Z, T) :- time(T), build(B, Z, T0), buildtime(B, D), T = T0 + D.
 % Add new building in zone if building is finished
 &sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T); -newbuilding_amnt(B, Z, T+1)} = 0 :- building(B), zone(Z), step(T).
 
-% act is a solver chosen variable that selects how many of said factories are active in any given timestep
-% actbuildingcount <= buildingcount 
-:- building(B), zone(Z), time(T), &sum{ actbuildingcount(B, Z, T); -buildingcount(B,Z,T)} >= 1.
+&sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 1 :- 
+    building(B), zone(Z), step(T), finishbuild(B, Z, T).
+&sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 0 :- 
+    building(B), zone(Z), step(T), not finishbuild(B, Z, T).
 
-% built=0 -> act=0
-&sum{ actbuildingcount(B, Z, T) } = 0 :- 
-    building(B), zone(Z), step(T), &sum{buildingcount(B, Z, T)} = 0.
-
-% runspeed controls speed of a factory, 
-% including amount of factories e.g. 1 factory at 1x = 10, 3 factories at 0.5x = 15, slack is the inverse
+% runspeed controls speed of a factory
 &dom{0..max_val} = runspeed(B,Z,T)   :- building(B), zone(Z), step(T).
-&dom{0..max_val} = slack(B,Z,T) :- building(B), zone(Z), step(T).
 
-% runspeed + idle (slack) = active number of factories (scaled)
-:- building(B), zone(Z), step(T), &sum{ runspeed(B, Z, T); slack(B, Z, T); -scale*actbuildingcount(B, Z, T)} != 0.
+% runspeed <= number of factories (scaled)
+:- building(B), zone(Z), step(T), &sum{ runspeed(B, Z, T); -scale*buildingcount(B, Z, T)} >= 1.
 
 % set to zero if no buildings active
-&sum { runspeed(B,Z,T) } = 0 :- building(B), zone(Z), step(T), &sum{ actbuildingcount(B, Z, T)} = 0.
-&sum { slack(B,Z,T) } = 0 :- building(B), zone(Z), step(T), &sum{ actbuildingcount(B, Z, T)} = 0.
+&sum { runspeed(B,Z,T) } = 0 :- building(B), zone(Z), step(T), &sum{ buildingcount(B, Z, T)} = 0.
 
 % consumption and production variables of each item in each zone
 &dom{0..max_val} = consumption(I,Z,T)   :- item(I), zone(Z), step(T).
@@ -123,11 +117,10 @@ buildcostset(I, T) :- build(B, _, T), buildingredient(B, I, _).
         -craft_gain(I, T+1) %available at step T+1
 } = 0 :- item(I), time(T), T < horizon.
 
-%% now we want to maximize runspeed of all factories in all zones, then minimize the slack (e.g. fairness in each zone)
+%% now we want to maximize runspeed of all factories in all zones
 %% then avoid imports and exports as much as possible (typically resources stay in each zone)
 &maximize {
     runspeed(B,Z,T) * 100000 : building(B), zone(Z), step(T);
-    slack(B,Z,T)    * -1000  : building(B), zone(Z), step(T);
     export(I,Z,T)   * -1     : item(I), zone(Z), step(T);
     import(I,Z,T)   * -1     : item(I), zone(Z), step(T)
 }.
@@ -135,4 +128,3 @@ buildcostset(I, T) :- build(B, _, T), buildingredient(B, I, _).
 % we must reach our targets
 :- goalbuilding(B, Qty), &sum{ buildingcount(B, Z, horizon) : zone(Z)} < Qty.
 :- goalitem(I, Qty), &sum{ globalstock(I, horizon); localstock(I, Z, horizon): zone(Z)} < Qty.
-
