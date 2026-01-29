@@ -1,6 +1,6 @@
-#const horizon = 20. 
-#const num_zones = 3.
-#const num_slots = 15.
+%#const horizon = 20. 
+%#const num_zones = 3.
+%#const num_slots = 15.
 #const max_val = 1000. 
 
 time(0..horizon).
@@ -8,7 +8,6 @@ step(0..horizon-1).
 zone(1..num_zones).
 slot(1..num_slots).
 
-% === FIX 1: Flow Index Domain ===
 % We need indices 1..16 because the flow leaves slot 15 and lands in "16" (the output buffer)
 flow_index(1..num_slots+1).
 
@@ -40,11 +39,6 @@ finish(build(B, Z), TIME) :- time(TIME), act(build(B, Z), TIMESTART), dur(B, DUR
 
 &sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 1 :- building(B), zone(Z), step(T), slot_map(Z, _, B), finish(build(B, Z), T).
 &sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 0 :- building(B), zone(Z), step(T), slot_map(Z, _, B), not finish(build(B, Z), T).
-
-
-% =========================================================
-% === WATERFALL RESOURCE MODEL ===
-% =========================================================
 
 next_slot(S, S+1) :- slot(S).
 next_zone(Z, Z+1) :- zone(Z), zone(Z+1).
@@ -157,7 +151,7 @@ next_zone(Z, Z+1) :- zone(Z), zone(Z+1).
 % Global Stock T+1 = Flow Leaving LAST Zone + All Exports
 &sum { globalstock(I, T+1);
        -global_flow(I, num_zones, num_slots+1, T); 
-       -fill_global(I, Z, S, T) : zone(Z) : slot(S) : has_assignment(Z, S) : building_out(B, I, _) : slot_map(Z,S,B)
+       -fill_global(I, Z, S, T) : zone(Z), slot(S),has_assignment(Z, S), building_out(B, I, _),slot_map(Z,S,B)
 } = 0 :- item(I), step(T).
 
 % 8. OPTIMIZATION
