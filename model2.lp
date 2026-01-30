@@ -115,7 +115,7 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 &sum { output_to_local(I, Z, S, T) } = 0 :- slot_map(Z, S, B), not building_out(B, I, _), step(T), item(I).
 &sum { output_to_global(I, Z, S, T) } = 0 :- slot_map(Z, S, B), not building_out(B, I, _), step(T), item(I).
 
-% Amount taken/input from local + global is exactly the amount required by the recepie * utilzation amount
+% Amount taken/input from local + global is exactly the amount required by the recipe * utilzation amount
 % Equation: input_local + input_global = building_input_amnt * building_utilization
 &sum { input_from_local(I, Z, S, T); input_from_global(I, Z, S, T); -Qty*slot_utilization(Z, S, T) } = 0 :- slot_map(Z, S, B), building_in(B, I, Qty), step(T).
 
@@ -125,7 +125,7 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 &sum { input_from_global(I, Z, S, T); -global_available(I, Z, S, T) } <= 0 :- item(I), zone(Z), slot(S), step(T).
 
 % Same as inputs, but for outputs
-% Equation: output of resource to local + output to global = output Qty of recepie * utilization
+% Equation: output of resource to local + output to global = output Qty of recipe * utilization
 &sum { output_to_local(I, Z, S, T); output_to_global(I, Z, S, T); -Qty*slot_utilization(Z, S, T) } = 0 :-
     slot_map(Z, S, B), building_out(B, I, Qty), step(T).
 
