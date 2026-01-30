@@ -5,7 +5,7 @@
 
 #const horizon = 15.
 #const num_zones = 2.
-#const num_slots = 40. % Smaller scale for faster debugging
+#const num_slots = 10. % Smaller scale for faster debugging
 
 item(iron_ore).
 item(iron_plate).
@@ -31,25 +31,15 @@ building_out(furnace, iron_plate, 1).
 
 % --- CAPACITIES ---
 % Zone 1 is a mining outpost (high ore capacity, no plate capacity)
-stock_cap(iron_ore,   1, 20).
-stock_cap(iron_plate, 1, 0).
+init_local_cap(iron_ore,   1, 20).
+init_local_cap(iron_plate, 1, 0).
 
 % Zone 2 is a factory (low ore capacity, high plate capacity)
-stock_cap(iron_ore,   2, 5).
-stock_cap(iron_plate, 2, 20).
-
+init_local_cap(iron_ore,   2, 5).
+init_local_cap(iron_plate, 2, 20).
 % Global Belt Capacity
-global_cap(iron_ore, 50).
-global_cap(iron_plate, 50).
-
-% --- INITIAL STATE (CRITICAL FIXES) ---
-
-% 1. Start with NO resources
-&sum { stock(I, Z, 0) } = 0 :- item(I), zone(Z).
-&sum { globalstock(I, 0) } = 0 :- item(I).
-
-% 2. Start with NO buildings (Solver must build them)
-&sum { buildingcount(B, Z, 0) } = 0 :- building(B), zone(Z), slot_map(Z, _, B).
+init_global_cap(iron_ore, 50).
+init_global_cap(iron_plate, 50).
 
 % --- TARGET GOALS ---
 
@@ -62,9 +52,8 @@ global_cap(iron_plate, 50).
 % 5. Import ore from the Global Belt into Zone 2.
 % 6. Smelt the ore into plates.
 
-:- not &sum{ stock(iron_plate, 2, horizon) } >= 5.
+%:- not &sum{ stock(iron_plate, 2, horizon) } >= 5.
+goal_item(iron_plate, 20).
 
 % Optional: Help the solver by pre-assigning the layout 
 % (or leave it out to let the solver find the best spots)
-slot_map(1, 1, miner).
-slot_map(2, 1, furnace).

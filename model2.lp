@@ -1,4 +1,38 @@
-% instance must define horizon, num_zones, num_slots
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Instance MUST define %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% constants: 
+%       #const horizon = X.
+%       #const num_zones = Y.
+%       #const num_slots = Z.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% items (eg craftable) and buildings (eg buildable): 
+%       item(name).
+%       building(name2).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% durations (steps) to craft and build: 
+%       dur(nameitemorbuilding, timesteps).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% costs to build/craft (can be multiple item types):
+%       craft_cost(name, item_consumed, Qty).
+%       build_cost(buildname, item_consumed, Qty).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% building inputs/outputs when built: 
+%       building_in(B, I, Q).
+%       building_out(B, I, Q).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Instance CAN define: %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       init_global_stock(I, Amount).
+%       init_local_stock(I, Z, Amount).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% building amnt in zone Z, fix in slot S: 
+%        init_building_count(B, Z, S, Count).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% max storage capacities: 
+%       init_local_cap(I, Z, Cap).
+%       init_global_cap(I, Cap).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #const max_val = 10000. 
 
 time(0..horizon).
@@ -24,7 +58,20 @@ can_build(B, Z) :- building(B), zone(Z), slot_map(Z, _, B).
 
 &dom{0..max_val} = stock(I,Z,T) :- item(I), zone(Z), time(T).
 &dom{0..max_val} = global_stock(I,T) :- item(I), time(T).
-&dom{0..max_val} = buildingcount(B, Z, T) :- building(B), zone(Z), time(T), slot_map(Z, _, B).
+&dom{0..max_val} = building_count(B, Z, T) :- building(B), zone(Z), time(T).
+
+% if building not assigned, force to zero for all
+&sum{ building_count(B, Z, T) } = 0 :- building(B), zone(Z), time(T), not can_build(B, Z).
+
+% init vars from instance
+&sum{ global_stock(I, 0) } = Amount :- init_global_stock(I, Amount).
+&sum{ global_stock(I, 0) } = 0 :- item(I), not init_global_stock(I, _).
+
+&sum{ stock(I, Z, 0) } = Amount :- init_local_stock(I, Z, Amount).
+&sum{ stock(I, Z, 0) } = 0 :- item(I), zone(Z), not init_local_stock(I, Z, _).
+
+slot_map(Z, S, B) :- init_building_count(B, Z, S, Count), Count > 0.
+&sum { building_count(B, Z, 0) } = Count :- init_building_count(B, Z, S, Count).
 
 % max 1 build, 1 craft / step
 0{ act(craft(I), STEP) : item(I), dur(I, _)}1 :- step(STEP), not busy(craft, STEP). 
@@ -50,9 +97,9 @@ finish(craft(I), TIME) :- time(TIME), act(craft(I), TIMESTART), dur(I, DUR), TIM
 finish(build(B, Z), TIME) :- time(TIME), act(build(B, Z), TIMESTART), dur(B, DUR), TIME = TIMESTART + DUR.
 finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _).
 
-% add one to buildingcount if build action finishes
-&sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 1 :- building(B), zone(Z), step(T), slot_map(Z, _, B), finish(build(B, Z), T).
-&sum { buildingcount(B, Z, T+1); -buildingcount(B, Z, T)} = 0 :- building(B), zone(Z), step(T), slot_map(Z, _, B), not finish(build(B, Z), T).
+% add one to building_count if build action finishes
+&sum { building_count(B, Z, T+1); -building_count(B, Z, T)} = 1 :- building(B), zone(Z), step(T), slot_map(Z, _, B), finish(build(B, Z), T).
+&sum { building_count(B, Z, T+1); -building_count(B, Z, T)} = 0 :- building(B), zone(Z), step(T), slot_map(Z, _, B), not finish(build(B, Z), T).
 
 % items we gain at step T if craft completes
 &dom{0..max_val} = yield_craft(I, T) :- item(I), step(T).
@@ -71,7 +118,7 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 &dom{0..max_val} = slot_utilization(Z, S, T) :- zone(Z), slot(S), step(T).
 
 % bulding util <= capacity (0 if not assigned to building type)
-&sum { slot_utilization(Z, S, T); -buildingcount(B, Z, T) } <= 0 :- slot_map(Z, S, B), step(T).
+&sum { slot_utilization(Z, S, T); -building_count(B, Z, T) } <= 0 :- slot_map(Z, S, B), step(T).
 &sum { slot_utilization(Z, S, T) } = 0 :- zone(Z), slot(S), step(T), not has_assignment(Z, S).
 
 % in each zone, first slot has all of stock available as resource
@@ -79,8 +126,8 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 
 % if stock has cap limit, then available space for outputs = cap - stock
 % Equation: local_space = maximum_local_capacity - local_stock
-&sum { local_space(I, Z, 1, T); stock(I, Z, T) } = Cap :- item(I), zone(Z), step(T), stock_cap(I, Z, Cap).
-&sum { local_space(I, Z, 1, T) } = max_val :- item(I), zone(Z), step(T), not stock_cap(I, Z, _).
+&sum { local_space(I, Z, 1, T); stock(I, Z, T) } = Cap :- item(I), zone(Z), step(T), init_local_cap(I, Z, Cap).
+&sum { local_space(I, Z, 1, T) } = max_val :- item(I), zone(Z), step(T), not init_local_cap(I, Z, _).
 
 % first zone, first slot in first zone has available = stock - (buildcost + craftcost) (both based on actions, taken from global stock)
 % since dom of global_avail >= 0, this enforces build+craftcosts <= global_stock
@@ -88,8 +135,8 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 &sum { global_available(I, 1, 1, T); -global_stock(I, T); cost_build(I, T); cost_craft(I, T) } = 0 :- item(I), step(T).
 
 % global_space calculation same as with local_space
-&sum { global_space(I, 1, 1, T); global_stock(I, T) } = Cap :- item(I), step(T), global_cap(I, Cap).
-&sum { global_space(I, 1, 1, T) } = max_val :- item(I), step(T), not global_cap(I, _).
+&sum { global_space(I, 1, 1, T); global_stock(I, T) } = Cap :- item(I), step(T), init_global_cap(I, Cap).
+&sum { global_space(I, 1, 1, T) } = max_val :- item(I), step(T), not init_global_cap(I, _).
 
 % connect available from global stock/space from zoneX last slot -> zoneX+1 first slot
 &sum { global_available(I, Znext, 1, T); -global_available(I, Z, num_slots+1, T) } = 0 :- 
@@ -134,7 +181,6 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 &sum { output_to_local(I, Z, S, T); -local_space(I, Z, S, T) } <= 0 :- item(I), zone(Z), slot(S), step(T).
 &sum { output_to_global(I, Z, S, T); -global_space(I, Z, S, T) } <= 0 :- item(I), zone(Z), slot(S), step(T).
 
-
 % Remove consumed local resouces from the amount available for next step in chain
 % Equation: local available at slot+1 = local_available at slot - consumed
 &sum { local_available(I, Z, S+1, T); -local_available(I, Z, S, T); input_from_local(I, Z, S, T) } = 0 :-
@@ -154,7 +200,7 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 
 % NOTE: connection from zoneX -> zoneX+1 for global stock happened above
 
-% For T->T+1, local stock is what we had left in last slot in previous timestep + what we produced into local stock at prev
+% For T->T+1, local stock is what we had left in last slot (==avail in num_slots+1) in previous timestep + what we produced into local stock at prev
 &sum { stock(I, Z, T+1); 
        -local_available(I, Z, num_slots+1, T); 
        -output_to_local(I, Z, S, T) : slot(S)
@@ -173,3 +219,11 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
     100*slot_utilization(Z, S, T) : zone(Z), slot(S), step(T); %want increase
     -1 * input_from_global(I, Z, S, T) : item(I), zone(Z), slot(S), step(T) %want decrease
 }.
+
+% must reach goals TODO FIX add building_count for all (is correct?)
+:- goal_building(B, Qty), &sum{ building_count(B, Z, horizon) : zone(Z) } < Qty.
+:- goal_item(I, Qty), &sum{ global_stock(I, horizon); stock(I, Z, horizon) : zone(Z) } < Qty.
+
+#show act/2.
+#show finish/2.
+#show slot_map/3.
