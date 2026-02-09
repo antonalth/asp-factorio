@@ -6,18 +6,20 @@
 %       #const num_zones = Y.
 %       #const num_slots = Z.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% items (eg craftable) and buildings (eg buildable): 
+% items that exist, craftable recepies and buildings (eg buildable): 
 %       item(name).
-%       building(name2).
+%       crafting(name).
+%       building(name).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % durations (steps) to craft and build: 
 %       dur(nameitemorbuilding, timesteps).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % costs to build/craft (can be multiple item types):
-%       craft_cost(name, item_consumed, Qty).
-%       build_cost(buildname, item_consumed, Qty).
+%       crafting_cost(name, item_consumed, Qty).
+%       building_cost(buildname, item_consumed, Qty).
+%       crafting_out(craftname, item, qty) ()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% building inputs/outputs when built: 
+% building inputs/outputs per step: 
 %       building_in(B, I, Q).
 %       building_out(B, I, Q).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,30 +74,30 @@ can_build(B, Z) :- building(B), zone(Z), slot_map(Z, _, B).
 
 slot_map(Z, S, B) :- init_building_count(B, Z, S, Count), Count > 0.
 &sum { building_count(B, Z, 0) } = Count :- init_building_count(B, Z, S, Count).
-
+&sum { building_count(B, Z, 0) } = 0 :- building(B), zone(Z), not init_building_count(B, Z, _, _).
 % max 1 build, 1 craft / step
-0{ act(craft(I), STEP) : item(I), dur(I, _)}1 :- step(STEP), not busy(craft, STEP). 
+0{ act(craft(C), STEP) : crafting(C), dur(C, _)}1 :- step(STEP), not busy(craft, STEP). 
 0{ act(build(B, Z), STEP) : building(B), zone(Z), dur(B, _), can_build(B, Z)}1 :- step(STEP), not busy(build,STEP).
 
 % we cannot start another action if we are not yet done with the current.
 busy(craft, STEP) :- step(STEP), act(craft(I), STEPSTART), dur(I, DUR), STEP > STEPSTART, STEP < STEPSTART + DUR.
 busy(build, STEP) :- step(STEP), act(build(B,Z), STEPSTART), dur(B, DUR), STEP > STEPSTART, STEP < STEPSTART + DUR.
 
-uses_build_resource(I, T) :- act(build(B, _), T), build_cost(B, I, _).
-uses_craft_resource(I, T) :- act(craft(Product), T), craft_cost(Product, I, _).
+uses_build_resource(I, T) :- act(build(B, _), T), building_cost(B, I, _).
+uses_craft_resource(I, T) :- act(craft(C), T), crafting_cost(C, I, _).
 
 % cost of building/crafting
 &dom{0..max_val} = cost_build(I, T) :- item(I), step(T).
 &dom{0..max_val} = cost_craft(I, T) :- item(I), step(T).
-&sum { cost_build(I, T) } = Qty :- step(T), item(I), act(build(B, _), T), build_cost(B, I, Qty).
+&sum { cost_build(I, T) } = Qty :- step(T), item(I), act(build(B, _), T), building_cost(B, I, Qty).
 &sum { cost_build(I, T) } = 0 :- step(T), item(I), not uses_build_resource(I, T).
-&sum { cost_craft(I, T) } = Qty :- step(T), item(I), act(craft(Product), T), craft_cost(Product, I, Qty).
+&sum { cost_craft(I, T) } = Qty :- step(T), item(I), act(craft(C), T), crafting_cost(C, I, Qty).
 &sum { cost_craft(I, T) } = 0 :- step(T), item(I), not uses_craft_resource(I, T).
 
 % finish action if we started action DUR steps ago
 finish(craft(I), TIME) :- time(TIME), act(craft(I), TIMESTART), dur(I, DUR), TIME = TIMESTART + DUR.
 finish(build(B, Z), TIME) :- time(TIME), act(build(B, Z), TIMESTART), dur(B, DUR), TIME = TIMESTART + DUR.
-finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _).
+finish_any_craft_for(I, T) :- finish(craft(C), T), crafting_out(C, I, _).
 
 % add one to building_count if build action finishes
 &sum { building_count(B, Z, T+1); -building_count(B, Z, T)} = 1 :- building(B), zone(Z), step(T), slot_map(Z, _, B), finish(build(B, Z), T).
@@ -103,7 +105,7 @@ finish_any_craft_for(I, T) :- finish(craft(Product), T), craft_out(Product, I, _
 
 % items we gain at step T if craft completes
 &dom{0..max_val} = yield_craft(I, T) :- item(I), step(T).
-&sum { yield_craft(I, T) } = Qty :- time(T), item(I), finish(craft(P), T), craft_out(P, I, Qty). 
+&sum { yield_craft(I, T) } = Qty :- time(T), item(I), finish(craft(C), T), crafting_out(C, I, Qty). 
 &sum { yield_craft(I, T) } = 0 :- time(T), item(I), not finish_any_craft_for(I, T).
 
 % vars of how much of each item are available from local stock & avail from global stock via import.
