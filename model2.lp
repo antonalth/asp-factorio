@@ -42,7 +42,6 @@ step(0..horizon-1).
 zone(1..num_zones).
 slot(1..num_slots).
 
-next_slot(S, S+1) :- slot(S).
 next_zone(Z, Z+1) :- zone(Z), zone(Z+1).
 
 available_index(1..num_slots+1).
@@ -186,19 +185,19 @@ finish_any_craft_for(I, T) :- finish(craft(C), T), crafting_out(C, I, _).
 % Remove consumed local resouces from the amount available for next step in chain
 % Equation: local available at slot+1 = local_available at slot - consumed
 &sum { local_available(I, Z, S+1, T); -local_available(I, Z, S, T); input_from_local(I, Z, S, T) } = 0 :-
-    item(I), zone(Z), next_slot(S, _), step(T).
+    item(I), zone(Z), slot(S), step(T).
 
 % same for global from slot -> slot+1
 &sum { global_available(I, Z, S+1, T); -global_available(I, Z, S, T); input_from_global(I, Z, S, T) } = 0 :-
-    item(I), zone(Z), next_slot(S, _), step(T).
+    item(I), zone(Z), slot(S), step(T).
 
 % same as local/global available
 &sum { local_space(I, Z, S+1, T); -local_space(I, Z, S, T); output_to_local(I, Z, S, T) } = 0 :-
-    item(I), zone(Z), next_slot(S, _), step(T).
+    item(I), zone(Z), slot(S), step(T).
 
 % same as local space
 &sum { global_space(I, Z, S+1, T); -global_space(I, Z, S, T); output_to_global(I, Z, S, T) } = 0 :-
-    item(I), zone(Z), next_slot(S, _), step(T).
+    item(I), zone(Z), slot(S), step(T).
 
 % NOTE: connection from zoneX -> zoneX+1 for global stock happened above
 
