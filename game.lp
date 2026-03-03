@@ -103,9 +103,9 @@ crafting_out(green_circuit,green_circuit,30).
 
 crafting(assembler).
 dur(assembler,1).
-crafing_cost(assembler, iron_plate, 100).
-crafing_cost(assembler, iron_gear, 50 ).
-crafing_cost(assembler, green_circuit, 30).
+crafting_cost(assembler, iron_plate, 100).
+crafting_cost(assembler, iron_gear, 50 ).
+crafting_cost(assembler, green_circuit, 30).
 crafting_out(assembler, assembler, 10).
 
 crafting(boiler).
@@ -187,6 +187,7 @@ crafting_cost(nuclear_reactor, copper_plate, 500).
 crafting_cost(nuclear_reactor, steel_plate, 500).
 crafting_cost(nuclear_reactor, red_circuit, 500).
 crafting_cost(nuclear_reactor, concrete, 500).
+crafting_out(nuclear_reactor, nuclear_reactor, 1).
 
 crafting(heat_exchanger).
 dur(heat_exchanger, 1).
@@ -216,6 +217,15 @@ building_cost(power_plant_small, steam_engine, 4).
 building_in(power_plant_small, water, 360).
 building_in(power_plant_small, coal, 30).
 building_out(power_plant_small, electricity, 3600). % 3.6MW
+
+building(nuclear_power_plant).
+dur(nuclear_power_plant, 1).
+building_cost(nuclear_power_plant, nuclear_reactor, 1).
+building_cost(nuclear_power_plant, heat_exchanger, 8).
+building_cost(nuclear_power_plant, steam_turbine, 16).
+building_in(nuclear_power_plant, water, 2472).
+building_in(nuclear_power_plant, uranium_fuel_cell, 1).
+building_out(nuclear_power_plant, electricity, 100000). % 100MW
 
 building(coal_mine).
 dur(coal_mine, 1).
@@ -265,6 +275,12 @@ building_cost(uranium_mine, electric_miner, 10).
 building_in(uranium_mine, sulfuric_acid, 75).
 building_in(uranium_mine, electricity, 900).
 building_out(uranium_mine, uranium, 75).
+
+building(oil_mine).
+dur(oil_mine, 1).
+building_cost(oil_mine, pumpjack, 5).
+building_in(oil_mine, electricity, 450).
+building_out(oil_mine, crude_oil, 3750).
 
 building(iron_smelter).
 dur(iron_smelter,1).
@@ -356,7 +372,7 @@ building(red_circuit_assembler).
 dur(red_circuit_assembler, 1).
 building_cost(red_circuit_assembler, assembler, 5).
 building_in(red_circuit_assembler, plastic_bar, 40).
-bulding_in(red_circuit_assembler, copper_cable, 80).
+building_in(red_circuit_assembler, copper_cable, 80).
 building_in(red_circuit_assembler, green_circuit, 40).
 building_in(red_circuit_assembler, electricity, 775).
 building_out(red_circuit_assembler, red_circuit, 20).
@@ -407,6 +423,14 @@ building_in(low_density_structure_assembler, plastic_bar, 40).
 building_in(low_density_structure_assembler, electricity, 775).
 building_out(low_density_structure_assembler, low_density_structure, 8).
 
+building(concrete_assembler).
+dur(concrete_assembler, 1).
+building_cost(concrete_assembler, assembler, 5).
+building_in(concrete_assembler, iron, 15).
+building_in(concrete_assembler, stone_brick, 75).
+building_in(concrete_assembler, water, 1500).
+building_out(concrete_assembler, concrete, 150).
+
 %building(rocket_fuel_assembler).
 %building(concrete_assembler).
 %building(solid_fuel_chemical_plant).
@@ -419,7 +443,7 @@ building_in(sulfur_chemical_plant, electricity, 1085).
 building_out(sulfur_chemical_plant, sulfur, 300).
 
 building(plastic_bar_chemical_plant).
-dur(plastic_bar_chemical_plant).
+dur(plastic_bar_chemical_plant,1).
 building_cost(plastic_bar_chemical_plant, chemical_plant, 5).
 building_in(plastic_bar_chemical_plant, coal, 150).
 building_in(plastic_bar_chemical_plant, petroleum, 3000).
@@ -441,7 +465,7 @@ building_cost(explosive_chemical_plant, chemical_plant, 5).
 building_in(explosive_chemical_plant, coal, 35).
 building_in(explosive_chemical_plant, sulfur, 35).
 building_in(explosive_chemical_plant, water, 350).
-buliding_in(explosive_chemical_plant, electricity, 1085).
+building_in(explosive_chemical_plant, electricity, 1085).
 building_out(explosive_chemical_plant, explosive, 7).
 
 building(heavy_to_light_cracking_chemical_plant).
@@ -472,13 +496,13 @@ dur(sulfuric_acid_chemical_plant, 1).
 building_cost(sulfuric_acid_chemical_plant, chemical_plant, 5).
 building_in(sulfuric_acid_chemical_plant, iron_plate, 150).
 building_in(sulfuric_acid_chemical_plant, sulfur, 750).
-buildgin_in(sulfuric_acid_chemical_plant, electricity, 1085).
+building_in(sulfuric_acid_chemical_plant, electricity, 1085).
 building_in(sulfuric_acid_chemical_plant, water, 15000).
 building_out(sulfuric_acid_chemical_plant, sulfuric_acid, 7500).
 
 building(advanced_oil_processing_oil_refinery).
 dur(advanced_oil_processing_oil_refinery, 1).
-building_cost(advanced_oil_processing_oil_refinery, chemical_plant, 5).
+building_cost(advanced_oil_processing_oil_refinery, oil_refinery, 5).
 building_in(advanced_oil_processing_oil_refinery, water, 1500).
 building_in(advanced_oil_processing_oil_refinery, crude_oil, 3000).
 building_in(advanced_oil_processing_oil_refinery, electricity, 2170).
@@ -486,6 +510,31 @@ building_out(advanced_oil_processing_oil_refinery, heavy_oil, 750).
 building_out(advanced_oil_processing_oil_refinery, light_oil, 1350).
 building_out(advanced_oil_processing_oil_refinery, petroleum, 1650).
 
+building(uranium_processing_centrifuge).
+dur(uranium_processing_centrifuge, 1).
+building_cost(uranium_processing_centrifuge, centrifuge, 20).
+building_in(uranium_processing_centrifuge, uranium, 460).
+building_in(uranium_processing_centrifuge, electricity, 7240).
+building_out(uranium_processing_centrifuge, uranium_238, 45).
+building_out(uranium_processing_centrifuge, uranium_235, 1).
+
+%simplified the math to fit abstraction
+building(kovarex_enrichment_centrifuge).
+dur(kovarex_enrichment_centrifuge,1).
+building_cost(kovarex_enrichment_centrifuge, centrifuge, 8).
+building_in(kovarex_enrichment_centrifuge, uranium_235, 40).
+building_in(kovarex_enrichment_centrifuge, uranium_238, 12).
+building_in(kovarex_enrichment_centrifuge, electricity, 2896).
+building_out(kovarex_enrichment_centrifuge, uranium_235, 44).
+
+building(uranium_fuel_cell_assembler).
+dur(uranium_fuel_cell_assembler, 1).
+building_cost(uranium_fuel_cell_assembler, assembler, 1).
+building_in(uranium_fuel_cell_assembler, iron_plate, 30).
+building_in(uranium_fuel_cell_assembler, uranium_235, 3).
+building_in(uranium_fuel_cell_assembler, uranium_238, 57).
+building_in(uranium_fuel_cell_assembler, electricity, 155).
+building_out(uranium_fuel_cell_assembler, uranium_fuel_cell, 30).
 
 %init_local_cap(copper_cable, Z, 500) :- zone(Z).
 %init_global_cap(copper_cable, 500).
