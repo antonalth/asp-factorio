@@ -207,33 +207,33 @@ building(offshore_pump).
 dur(offshore_pump,1).
 building_cost(offshore_pump, iron_gear, 2).
 building_cost(offshore_pump, pipe, 3).
-building_out(offshore_pump, water, 36000).
+building_out(offshore_pump, water, 3600).
 
 % Small Power Plant: two boilers, 4 steam engine
 building(power_plant_small).
 dur(power_plant_small, 1).
 building_cost(power_plant_small, boiler, 2).
 building_cost(power_plant_small, steam_engine, 4).
-building_in(power_plant_small, water, 360).
+building_in(power_plant_small, water, 36).
 building_in(power_plant_small, coal, 30).
-building_out(power_plant_small, electricity, 3600). % 3.6MW
+building_out(power_plant_small, electricity, 360). % 3.6MW
 
 building(nuclear_power_plant).
 dur(nuclear_power_plant, 1).
 building_cost(nuclear_power_plant, nuclear_reactor, 1).
 building_cost(nuclear_power_plant, heat_exchanger, 8).
 building_cost(nuclear_power_plant, steam_turbine, 16).
-building_in(nuclear_power_plant, water, 2472).
+building_in(nuclear_power_plant, water, 247).
 building_in(nuclear_power_plant, uranium_fuel_cell, 1).
-building_out(nuclear_power_plant, electricity, 100000). % 100MW
+building_out(nuclear_power_plant, electricity, 10000). % 100MW
 
 building(coal_mine).
 dur(coal_mine, 1).
 building_cost(coal_mine, electric_miner, 10).
-building_in(coal_mine, electricity, 900).
+building_in(coal_mine, electricity, 90).
 building_out(coal_mine, coal, 150).
 
-building(coal_mine_burner)
+building(coal_mine_burner).
 dur(coal_mine_burner,1).
 building_cost(coal_mine_burner, burner_miner, 5).
 building_in(coal_mine_burner, coal, 7).
@@ -242,10 +242,10 @@ building_out(coal_mine_burner, coal, 38).
 building(iron_mine).
 dur(iron_mine, 1).
 building_cost(iron_mine, electric_miner, 10).
-building_in(iron_mine, electricity, 900).
+building_in(iron_mine, electricity, 90).
 building_out(iron_mine, iron, 150).
 
-building(iron_mine_burner)
+building(iron_mine_burner).
 dur(iron_mine_burner,1).
 building_cost(iron_mine_burner, burner_miner, 5).
 building_in(iron_mine_burner, iron, 7).
@@ -254,10 +254,10 @@ building_out(iron_mine_burner, iron, 38).
 building(copper_mine).
 dur(copper_mine, 1).
 building_cost(copper_mine, electric_miner, 10).
-building_in(copper_mine, electricity, 900).
+building_in(copper_mine, electricity, 90).
 building_out(copper_mine, copper, 150).
 
-building(copper_mine_burner)
+building(copper_mine_burner).
 dur(copper_mine_burner,1).
 building_cost(copper_mine_burner, burner_miner, 5).
 building_in(copper_mine_burner, copper, 7).
@@ -266,21 +266,21 @@ building_out(copper_mine_burner, copper, 38).
 building(stone_mine).
 dur(stone_mine, 1).
 building_cost(stone_mine, electric_miner, 10).
-building_in(stone_mine, electricity, 900).
+building_in(stone_mine, electricity, 90).
 building_out(stone_mine, stone, 150).
 
 building(uranium_mine).
 dur(uranium_mine, 1).
 building_cost(uranium_mine, electric_miner, 10).
-building_in(uranium_mine, sulfuric_acid, 75).
-building_in(uranium_mine, electricity, 900).
+building_in(uranium_mine, sulfuric_acid, 8).
+building_in(uranium_mine, electricity, 90).
 building_out(uranium_mine, uranium, 75).
 
 building(oil_mine).
 dur(oil_mine, 1).
 building_cost(oil_mine, pumpjack, 5).
-building_in(oil_mine, electricity, 450).
-building_out(oil_mine, crude_oil, 3750).
+building_in(oil_mine, electricity, 45).
+building_out(oil_mine, crude_oil, 375).
 
 building(iron_smelter).
 dur(iron_smelter,1).
@@ -343,21 +343,21 @@ building(pipe_assembler).
 dur(pipe_assembler,1).
 building_cost(pipe_assembler, assembler, 5).
 building_in(pipe_assembler, iron_plate, 100).
-building_in(pipe_assembler, electricity, 775).
+building_in(pipe_assembler, electricity, 78).
 building_out(pipe_assembler, pipe, 100).
 
 building(iron_gear_assembler).
 dur(iron_gear_assembler,1).
 building_cost(iron_gear_assembler, assembler, 5).
 building_in(iron_gear_assembler, iron_plate, 200).
-building_in(iron_gear_assembler, electricity, 775).
+building_in(iron_gear_assembler, electricity, 78).
 building_out(iron_gear_assembler, iron_gear, 100).
 
 building(copper_cable_assembler).
 dur(copper_cable_assembler, 1).
 building_cost(copper_cable_assembler, assembler, 5).
 building_in(copper_cable_assembler, copper_plate, 100).
-building_in(copper_cable_assembler, electricity, 775).
+building_in(copper_cable_assembler, electricity, 78).
 building_out(copper_cable_assembler, copper_cable, 200).
 
 building(green_circuit_assembler).
@@ -365,7 +365,7 @@ dur(green_circuit_assembler, 1).
 building_cost(green_circuit_assembler, assembler, 5).
 building_in(green_circuit_assembler, iron_plate, 100).
 building_in(green_circuit_assembler, copper_cable, 300).
-building_in(green_circuit_assembler, electricity, 775).
+building_in(green_circuit_assembler, electricity, 78).
 building_out(green_circuit_assembler, green_circuit, 100).
 
 building(red_circuit_assembler).
@@ -374,7 +374,7 @@ building_cost(red_circuit_assembler, assembler, 5).
 building_in(red_circuit_assembler, plastic_bar, 40).
 building_in(red_circuit_assembler, copper_cable, 80).
 building_in(red_circuit_assembler, green_circuit, 40).
-building_in(red_circuit_assembler, electricity, 775).
+building_in(red_circuit_assembler, electricity, 78).
 building_out(red_circuit_assembler, red_circuit, 20).
 
 building(blue_circuit_assembler).
@@ -382,8 +382,8 @@ dur(blue_circuit_assembler,1).
 building_cost(blue_circuit_assembler, assembler, 5).
 building_in(blue_circuit_assembler, green_circuit, 240).
 building_in(blue_circuit_assembler, red_circuit, 24).
-building_in(blue_circuit_assembler, sulfuric_acid, 60).
-building_in(blue_circuit_assembler, electricity, 775).
+building_in(blue_circuit_assembler, sulfuric_acid, 6).
+building_in(blue_circuit_assembler, electricity, 78).
 building_out(blue_circuit_assembler, blue_circuit, 12).
 
 building(engine_assembler).
@@ -392,7 +392,7 @@ building_cost(engine_assembler, assembler, 5).
 building_in(engine_assembler, steel_plate, 12).
 building_in(engine_assembler, iron_gear, 12).
 building_in(engine_assembler, pipe, 24).
-building_in(engine_assembler, electricity, 775).
+building_in(engine_assembler, electricity, 78).
 building_out(engine_assembler, engine, 12).
 
 building(electric_engine_assembler).
@@ -400,18 +400,18 @@ dur(electric_engine_assembler,1).
 building_cost(electric_engine_assembler, assembler, 5).
 building_in(electric_engine_assembler, green_circuit, 24).
 building_in(electric_engine_assembler, engine, 12).
-building_in(electric_engine_assembler, lubricant, 180).
-building_in(electric_engine_assembler, electricity, 775).
+building_in(electric_engine_assembler, lubricant, 18).
+building_in(electric_engine_assembler, electricity, 78).
 building_out(electric_engine_assembler, electric_engine, 12).
 
 building(robot_frame_assembler).
 dur(robot_frame_assembler,1).
 building_cost(robot_frame_assembler, assembler, 5).
-building_in(robot_frame_assembler, steel, 6).
+building_in(robot_frame_assembler, steel_plate, 6).
 building_in(robot_frame_assembler, battery, 12).
 building_in(robot_frame_assembler, green_circuit, 18).
 building_in(robot_frame_assembler, electric_engine, 6).
-building_in(robot_frame_assembler, electricity, 775).
+building_in(robot_frame_assembler, electricity, 78).
 building_out(robot_frame_assembler, robot_frame, 6).
 
 building(low_density_structure_assembler).
@@ -420,7 +420,7 @@ building_cost(low_density_structure_assembler, assembler, 5).
 building_in(low_density_structure_assembler, copper_plate, 160).
 building_in(low_density_structure_assembler, steel_plate, 16).
 building_in(low_density_structure_assembler, plastic_bar, 40).
-building_in(low_density_structure_assembler, electricity, 775).
+building_in(low_density_structure_assembler, electricity, 78).
 building_out(low_density_structure_assembler, low_density_structure, 8).
 
 building(concrete_assembler).
@@ -428,7 +428,7 @@ dur(concrete_assembler, 1).
 building_cost(concrete_assembler, assembler, 5).
 building_in(concrete_assembler, iron, 15).
 building_in(concrete_assembler, stone_brick, 75).
-building_in(concrete_assembler, water, 1500).
+building_in(concrete_assembler, water, 150).
 building_out(concrete_assembler, concrete, 150).
 
 %building(rocket_fuel_assembler).
@@ -437,17 +437,17 @@ building_out(concrete_assembler, concrete, 150).
 building(sulfur_chemical_plant).
 dur(sulfur_chemical_plant, 1).
 building_cost(sulfur_chemical_plant, chemical_plant, 5).
-building_in(sulfur_chemical_plant, water, 4500).
-building_in(sulfur_chemical_plant, petroleum, 4500).
-building_in(sulfur_chemical_plant, electricity, 1085).
+building_in(sulfur_chemical_plant, water, 450).
+building_in(sulfur_chemical_plant, petroleum, 450).
+building_in(sulfur_chemical_plant, electricity, 109).
 building_out(sulfur_chemical_plant, sulfur, 300).
 
 building(plastic_bar_chemical_plant).
 dur(plastic_bar_chemical_plant,1).
 building_cost(plastic_bar_chemical_plant, chemical_plant, 5).
 building_in(plastic_bar_chemical_plant, coal, 150).
-building_in(plastic_bar_chemical_plant, petroleum, 3000).
-building_in(plastic_bar_chemical_plant, electricity, 1085).
+building_in(plastic_bar_chemical_plant, petroleum, 300).
+building_in(plastic_bar_chemical_plant, electricity, 109).
 building_out(plastic_bar_chemical_plant, plastic_bar, 200).
 
 building(battery_chemical_plant).
@@ -455,8 +455,8 @@ dur(battery_chemical_plant,1).
 building_cost(battery_chemical_plant, chemical_plant, 5).
 building_in(battery_chemical_plant, iron_plate, 35).
 building_in(battery_chemical_plant, copper_plate, 35).
-building_in(battery_chemical_plant, sulfuric_acid, 700).
-building_in(battery_chemical_plant, electricity, 1085).
+building_in(battery_chemical_plant, sulfuric_acid, 70).
+building_in(battery_chemical_plant, electricity, 109).
 building_out(battery_chemical_plant, battery, 7).
 
 building(explosive_chemical_plant).
@@ -464,57 +464,57 @@ dur(explosive_chemical_plant,1).
 building_cost(explosive_chemical_plant, chemical_plant, 5).
 building_in(explosive_chemical_plant, coal, 35).
 building_in(explosive_chemical_plant, sulfur, 35).
-building_in(explosive_chemical_plant, water, 350).
-building_in(explosive_chemical_plant, electricity, 1085).
+building_in(explosive_chemical_plant, water, 35).
+building_in(explosive_chemical_plant, electricity, 109).
 building_out(explosive_chemical_plant, explosive, 7).
 
 building(heavy_to_light_cracking_chemical_plant).
 dur(heavy_to_light_cracking_chemical_plant, 1).
 building_cost(heavy_to_light_cracking_chemical_plant, chemical_plant, 5).
-building_in(heavy_to_light_cracking_chemical_plant, water, 2250).
-building_in(heavy_to_light_cracking_chemical_plant, heavy_oil, 3000).
-building_in(heavy_to_light_cracking_chemical_plant, electricity, 1085).
-building_out(heavy_to_light_cracking_chemical_plant, light_oil, 2250).
+building_in(heavy_to_light_cracking_chemical_plant, water, 225).
+building_in(heavy_to_light_cracking_chemical_plant, heavy_oil, 300).
+building_in(heavy_to_light_cracking_chemical_plant, electricity, 109).
+building_out(heavy_to_light_cracking_chemical_plant, light_oil, 225).
 
 building(light_to_petroleum_cracking_chemical_plant).
 dur(light_to_petroleum_cracking_chemical_plant, 1).
 building_cost(light_to_petroleum_cracking_chemical_plant, chemical_plant, 5).
-building_in(light_to_petroleum_cracking_chemical_plant, water, 2250).
-building_in(light_to_petroleum_cracking_chemical_plant, light_oil, 2250).
-building_in(light_to_petroleum_cracking_chemical_plant, electricity, 1085).
-building_out(light_to_petroleum_cracking_chemical_plant, petroleum, 1500).
+building_in(light_to_petroleum_cracking_chemical_plant, water, 225).
+building_in(light_to_petroleum_cracking_chemical_plant, light_oil, 225).
+building_in(light_to_petroleum_cracking_chemical_plant, electricity, 109).
+building_out(light_to_petroleum_cracking_chemical_plant, petroleum, 150).
 
 building(lubricant_chemical_plant).
 dur(lubricant_chemical_plant, 1).
 building_cost(lubricant_chemical_plant, chemical_plant, 5).
-building_in(lubricant_chemical_plant, heavy_oil, 1500).
-building_in(lubricant_chemical_plant, electricity, 1085).
-building_out(lubricant_chemical_plant, lubricant, 1500).
+building_in(lubricant_chemical_plant, heavy_oil, 150).
+building_in(lubricant_chemical_plant, electricity, 109).
+building_out(lubricant_chemical_plant, lubricant, 150).
 
 building(sulfuric_acid_chemical_plant).
 dur(sulfuric_acid_chemical_plant, 1).
 building_cost(sulfuric_acid_chemical_plant, chemical_plant, 5).
 building_in(sulfuric_acid_chemical_plant, iron_plate, 150).
 building_in(sulfuric_acid_chemical_plant, sulfur, 750).
-building_in(sulfuric_acid_chemical_plant, electricity, 1085).
-building_in(sulfuric_acid_chemical_plant, water, 15000).
-building_out(sulfuric_acid_chemical_plant, sulfuric_acid, 7500).
+building_in(sulfuric_acid_chemical_plant, electricity, 109).
+building_in(sulfuric_acid_chemical_plant, water, 1500).
+building_out(sulfuric_acid_chemical_plant, sulfuric_acid, 750).
 
 building(advanced_oil_processing_oil_refinery).
 dur(advanced_oil_processing_oil_refinery, 1).
 building_cost(advanced_oil_processing_oil_refinery, oil_refinery, 5).
-building_in(advanced_oil_processing_oil_refinery, water, 1500).
-building_in(advanced_oil_processing_oil_refinery, crude_oil, 3000).
-building_in(advanced_oil_processing_oil_refinery, electricity, 2170).
-building_out(advanced_oil_processing_oil_refinery, heavy_oil, 750).
-building_out(advanced_oil_processing_oil_refinery, light_oil, 1350).
-building_out(advanced_oil_processing_oil_refinery, petroleum, 1650).
+building_in(advanced_oil_processing_oil_refinery, water, 150).
+building_in(advanced_oil_processing_oil_refinery, crude_oil, 300).
+building_in(advanced_oil_processing_oil_refinery, electricity, 217).
+building_out(advanced_oil_processing_oil_refinery, heavy_oil, 75).
+building_out(advanced_oil_processing_oil_refinery, light_oil, 135).
+building_out(advanced_oil_processing_oil_refinery, petroleum, 165).
 
 building(uranium_processing_centrifuge).
 dur(uranium_processing_centrifuge, 1).
 building_cost(uranium_processing_centrifuge, centrifuge, 20).
 building_in(uranium_processing_centrifuge, uranium, 460).
-building_in(uranium_processing_centrifuge, electricity, 7240).
+building_in(uranium_processing_centrifuge, electricity, 724).
 building_out(uranium_processing_centrifuge, uranium_238, 45).
 building_out(uranium_processing_centrifuge, uranium_235, 1).
 
@@ -524,7 +524,7 @@ dur(kovarex_enrichment_centrifuge,1).
 building_cost(kovarex_enrichment_centrifuge, centrifuge, 8).
 building_in(kovarex_enrichment_centrifuge, uranium_235, 40).
 building_in(kovarex_enrichment_centrifuge, uranium_238, 12).
-building_in(kovarex_enrichment_centrifuge, electricity, 2896).
+building_in(kovarex_enrichment_centrifuge, electricity, 290).
 building_out(kovarex_enrichment_centrifuge, uranium_235, 44).
 
 building(uranium_fuel_cell_assembler).
@@ -533,7 +533,7 @@ building_cost(uranium_fuel_cell_assembler, assembler, 1).
 building_in(uranium_fuel_cell_assembler, iron_plate, 30).
 building_in(uranium_fuel_cell_assembler, uranium_235, 3).
 building_in(uranium_fuel_cell_assembler, uranium_238, 57).
-building_in(uranium_fuel_cell_assembler, electricity, 155).
+building_in(uranium_fuel_cell_assembler, electricity, 16).
 building_out(uranium_fuel_cell_assembler, uranium_fuel_cell, 30).
 
 %init_local_cap(copper_cable, Z, 500) :- zone(Z).

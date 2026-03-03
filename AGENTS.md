@@ -8,4 +8,4 @@ The main model is located inside of model.lp, and all instances are inside of th
 
 ## Running the model
 - To run the model, we must use the right conda environment, for example using `conda activate aspproj`
-- Then, to run the model with an instance (limit memory to MAX 128GB, no swap, max 32 threads, since there is a running ML training job): `systemd-run --user --scope -p MemoryMax=128G -p MemoryHigh=120G -p MemorySwapMax=0 clingcon model2.lp instances/testinstance.lp --opt-mode=opt --quiet=1 -t 32 --time SECONDS`
+- Then, to run the model with an instance (limit memory to MAX 128GB, no swap, max 32 threads, since there is a running ML training job): `systemd-run --user --scope -p MemoryMax=128G -p MemoryHigh=120G -p MemorySwapMax=0 clingcon model2.lp game.lp instances/test1.lp --opt-mode=opt --quiet=1 -t 32 --time SECONDS`

@@ -6,7 +6,7 @@
 %       #const num_zones = Y.
 %       #const num_slots = Z.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% items that exist, craftable recepies and buildings (eg buildable): 
+% items that exist, craftable recipes and buildings (eg buildable): 
 %       item(name).
 %       crafting(name).
 %       building(name).
@@ -35,7 +35,10 @@
 %       init_local_cap(I, Z, Cap).
 %       init_global_cap(I, Cap).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#const max_val = 10000. 
+% :- goal_building(B, Qty)
+% :- goal_item(I, Qty)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#const max_val = 100000. 
 
 time(0..horizon).
 step(0..horizon-1).
