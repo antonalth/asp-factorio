@@ -95,7 +95,7 @@ crafting_out(pipe, pipe, 60).
 
 crafting(green_circuit).
 dur(green_circuit,1).
-crafting_cost(green_circuit, iron, 30).
+crafting_cost(green_circuit, iron_plate, 30).
 crafting_cost(green_circuit, copper_cable, 90).
 crafting_out(green_circuit,green_circuit,30).
 
@@ -248,7 +248,7 @@ building_out(iron_mine, iron, 150).
 building(iron_mine_burner).
 dur(iron_mine_burner,1).
 building_cost(iron_mine_burner, burner_miner, 5).
-building_in(iron_mine_burner, iron, 7).
+building_in(iron_mine_burner, coal, 7).
 building_out(iron_mine_burner, iron, 38).
 
 building(copper_mine).
@@ -260,7 +260,7 @@ building_out(copper_mine, copper, 150).
 building(copper_mine_burner).
 dur(copper_mine_burner,1).
 building_cost(copper_mine_burner, burner_miner, 5).
-building_in(copper_mine_burner, copper, 7).
+building_in(copper_mine_burner, coal, 7).
 building_out(copper_mine_burner, copper, 38).
 
 building(stone_mine).
