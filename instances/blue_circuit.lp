@@ -1,5 +1,5 @@
-#const horizon = 27.
-#const num_zones = 2.
+#const horizon = 25.
+#const num_zones = 3.
 #const num_slots = 8.
 
 %       init_global_stock(I, Amount).
