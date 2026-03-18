@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Parse clingcon Assignment output to NumPy and render selector-based 3D Plotly subplots."""
-# WRITTEN BY CODEX! NOT OWN WORK.
+# WRITTEN BY CODING AGENT! NOT OWN WORK. USED ONLY FOR VISUALIZATION
 from __future__ import annotations
 
 import argparse
