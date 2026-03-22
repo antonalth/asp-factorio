@@ -2,9 +2,6 @@
 #const num_zones = 2.
 #const num_slots = 8.
 
-%       init_global_stock(I, Amount).
-%        init_building_count(B, Z, S, Count).
-
 init_global_stock(electricity, 500).
 init_global_stock(coal, 500).
 init_building_count(offshore_pump, 1, 1, 1).
@@ -18,3 +15,4 @@ goal_item(green_circuit, 100).
 goal_building(green_circuit_assembler, 1).
 
 init_local_cap(I, Z, 50) :- item(I), zone(Z).
+init_global_cap(I, Z, 10000) :- item(I), zone(Z).

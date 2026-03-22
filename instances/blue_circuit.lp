@@ -1,9 +1,7 @@
-#const horizon = 25.
-#const num_zones = 3.
+#const horizon = 20.
+#const num_zones = 2.
 #const num_slots = 8.
 
-%       init_global_stock(I, Amount).
-%        init_building_count(B, Z, S, Count).
 init_global_stock(assembler, 50).
 init_global_stock(stone_furnace, 50).
 init_global_stock(electricity, 500).
@@ -18,5 +16,7 @@ init_building_count(copper_smelter, 1, 7, 1).
 init_building_count(iron_smelter, 1, 8, 1).
 
 goal_item(blue_circuit, 1).
+goal_building(blue_circuit_assembler, 1).
 
 init_local_cap(I, Z, 50) :- item(I), zone(Z).
+init_global_cap(I, Z, 10000) :- item(I), zone(Z).

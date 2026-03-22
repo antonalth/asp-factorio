@@ -24,3 +24,4 @@ init_building_count(iron_smelter, 1, 8, 1).
 goal_item(plastic_bar, 1).
 
 init_local_cap(I, Z, 50) :- item(I), zone(Z).
+init_global_cap(I, Z, 10000) :- item(I), zone(Z).

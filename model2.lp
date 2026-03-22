@@ -38,7 +38,7 @@
 % :- goal_building(B, Qty)
 % :- goal_item(I, Qty)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#const max_val = 100000. 
+#const max_val = 10000. 
 
 time(0..horizon).
 step(0..horizon-1).
@@ -77,6 +77,7 @@ can_build(B, Z) :- building(B), zone(Z), slot_map(Z, _, B).
 slot_map(Z, S, B) :- init_building_count(B, Z, S, Count), Count > 0.
 &sum { building_count(B, Z, 0) } = Count :- init_building_count(B, Z, S, Count).
 &sum { building_count(B, Z, 0) } = 0 :- building(B), zone(Z), not init_building_count(B, Z, _, _).
+
 % max 1 build, 1 craft / step
 0{ act(craft(C), STEP) : crafting(C), dur(C, _)}1 :- step(STEP), not busy(craft, STEP). 
 0{ act(build(B, Z), STEP) : building(B), zone(Z), dur(B, _), can_build(B, Z)}1 :- step(STEP), not busy(build,STEP).
@@ -231,3 +232,32 @@ finish_any_craft_for(I, T) :- finish(craft(C), T), crafting_out(C, I, _).
 #show act/2.
 #show finish/2.
 #show slot_map/3.
+
+%% DEPRECATED: force max utilization, causes memory use > 1TB, todo why?
+% #const max_util = 40.
+
+% val(0..max_util).
+% succ(U,U1) :- val(U), U1 = U+1, val(U1).
+
+% blocked_capacity(Z,S,T,U1) :-
+%     val(U1),
+%     slot_map(Z,S,B), step(T),
+%     &sum { building_count(B,Z,T) } < U1.
+
+% blocked_input(Z,S,T,U1) :-
+%     val(U1),
+%     slot_map(Z,S,B), step(T),
+%     building_in(B,I,Qty),
+%     &sum { local_available(I,Z,S,T); global_available(I,Z,S,T) } < Qty * U1.
+
+% blocked_output(Z,S,T,U1) :-
+%     val(U1),
+%     slot_map(Z,S,B), step(T),
+%     building_out(B,I,Qty),
+%     &sum { local_space(I,Z,S,T); global_space(I,Z,S,T) } < Qty * U1.
+
+% :- slot_map(Z,S,B), step(T), succ(U,U1),
+%    &sum { slot_utilization(Z,S,T) } = U,
+%    not blocked_capacity(Z,S,T,U1),
+%    not blocked_input(Z,S,T,U1),
+%    not blocked_output(Z,S,T,U1).
