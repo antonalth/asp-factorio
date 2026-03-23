@@ -233,7 +233,7 @@ finish_any_craft_for(I, T) :- finish(craft(C), T), crafting_out(C, I, _).
 #show finish/2.
 #show slot_map/3.
 
-%% DEPRECATED: force max utilization, causes memory use > 1TB, todo why?
+%% DEPRECATED: force max utilization, causes memory use+++
 % #const max_util = 40.
 
 % val(0..max_util).

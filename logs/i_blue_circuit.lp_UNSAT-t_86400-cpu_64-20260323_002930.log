@@ -1,0 +1,668 @@
+================ INSTANCE BEGIN ================
+File: instances/blue_circuit.lp
+------------------------------------------------
+#const horizon = 20.
+#const num_zones = 2.
+#const num_slots = 8.
+
+init_global_stock(assembler, 50).
+init_global_stock(stone_furnace, 50).
+init_global_stock(electricity, 500).
+init_global_stock(coal, 50).
+init_building_count(offshore_pump, 1, 1, 1).
+init_building_count(power_plant_small, 1, 2, 2).
+init_building_count(coal_mine, 1, 3, 1).
+init_building_count(iron_mine, 1, 4, 1).
+init_building_count(copper_mine, 1, 5, 1).
+init_building_count(stone_mine, 1, 6, 1).
+init_building_count(copper_smelter, 1, 7, 1).
+init_building_count(iron_smelter, 1, 8, 1).
+
+goal_item(blue_circuit, 1).
+goal_building(blue_circuit_assembler, 1).
+
+init_local_cap(I, Z, 50) :- item(I), zone(Z).
+init_global_cap(I, Z, 10000) :- item(I), zone(Z).
+================ CLINGCON OUTPUT ================
+Running as unit: run-rfe5b0bf1bb844dbc85d0ce362d79f9b7.scope; invocation ID: 7758be7bcb034f4085db403b46cbd7c5
+clingcon version 5.2.1
+Reading from model2.lp ...
+model2.lp:74:36-66: info: atom does not occur in any rule head:
+  init_local_stock(I,Z,Amount)
+
+model2.lp:75:53-78: info: atom does not occur in any rule head:
+  init_local_stock(#X0,#X1,#P2)
+
+model2.lp:143:82-105: info: atom does not occur in any rule head:
+  init_global_cap(I,Cap)
+
+model2.lp:144:70-91: info: atom does not occur in any rule head:
+  init_global_cap(#X0,#P1)
+
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 2202.112s (Solving: 2141.77s 1st Model: 0.00s Unsat: 2141.77s)
+CPU Time     : 135494.189s
+Threads      : 64       (Winner: 2)
+
+Choices      : 15157596
+Conflicts    : 4083760  (Analyzed: 4006050)
+Restarts     : 4225     (Average: 948.18 Last: 26930 Blocked: 0)
+Problems     : 52       (Average Length: 1.00 Splits: 0)
+Lemmas       : 5906027004 (Deleted: 5804317084)
+  Binary     : 60686073 (Ratio:   1.03%)
+  Ternary    : 1313026603 (Ratio:  22.23%)
+  Conflict   : 3999420  (Average Length:  228.5 Ratio:   0.07%) 
+  Loop       : 0        (Average Length:    0.0 Ratio:   0.00%) 
+  Other      : 5902027584 (Average Length:    3.1 Ratio:  99.93%) 
+  Distributed: 1537599  (Ratio:  38.45% Average LBD: 110.53) 
+  Integrated : 78570100 (Ratio: 5109.92% Unit: 8404800 Average Jumps: 0.64)
+Backjumps    : 4006050  (Average:  2.42 Max: 4735 Sum: 9684190)
+  Executed   : 3999146  (Average:  2.42 Max: 4735 Sum: 9677286 Ratio:  99.93%)
+  Bounded    : 6904     (Average:  1.00 Max:   1 Sum:   6904 Ratio:   0.07%)
+
+Rules        : 2331513  (Original: 2324457)
+  Choice     : 1616    
+Atoms        : 484406   (Original: 481038 Auxiliary: 3368)
+Bodies       : 18472    (Original: 14172)
+  Count      : 0        (Original: 56)
+Equivalences : 83343    (Atom=Atom: 30479 Body=Body: 3157 Other: 49707)
+Tight        : Yes
+Variables    : 1364931  (Eliminated:    0 Frozen: 1361563)
+Constraints  : 2724745  (Binary:  88.9% Ternary:   0.7% Other:  10.5%)
+
+Clingcon
+  Init time in seconds
+    Total    : 54.8718
+    Simplify : 0.155867
+    Translate: 46.4399
+  Problem
+    Constraints: 181820
+    Variables: 169922
+    Clauses  : 1.60397e+06
+    Literals : 1.31745e+06
+  Translate
+    Constraints removed: 117521
+    Constraints added: 0
+    Clauses  : 1.00054e+06
+    Weight constraints: 853
+    Literals : 1.23507e+06
+  [Thread 0]
+    Time in seconds
+      Total  : 604.789
+      Propagation: 481.842
+      Check  : 104.194
+      Undo   : 18.7532
+    Refined reason: 28096
+    Introduced reason: 14513
+    Literals introduced: 2.41719e+06
+  [Thread 1]
+    Time in seconds
+      Total  : 668.523
+      Propagation: 471.998
+      Check  : 167.314
+      Undo   : 29.2114
+    Refined reason: 25195
+    Introduced reason: 4944
+    Literals introduced: 456162
+  [Thread 2]
+    Time in seconds
+      Total  : 601.954
+      Propagation: 375.962
+      Check  : 191.345
+      Undo   : 34.648
+    Refined reason: 26061
+    Introduced reason: 3855
+    Literals introduced: 373213
+  [Thread 3]
+    Time in seconds
+      Total  : 644.017
+      Propagation: 401.44
+      Check  : 208.493
+      Undo   : 34.084
+    Refined reason: 38656
+    Introduced reason: 4801
+    Literals introduced: 462716
+  [Thread 4]
+    Time in seconds
+      Total  : 569.676
+      Propagation: 366.523
+      Check  : 170.475
+      Undo   : 32.6776
+    Refined reason: 16989
+    Introduced reason: 3570
+    Literals introduced: 365875
+  [Thread 5]
+    Time in seconds
+      Total  : 1154.11
+      Propagation: 802.16
+      Check  : 321.893
+      Undo   : 30.0546
+    Refined reason: 114902
+    Introduced reason: 9424
+    Literals introduced: 667881
+  [Thread 6]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 7]
+    Time in seconds
+      Total  : 568.756
+      Propagation: 347.161
+      Check  : 184.117
+      Undo   : 37.4782
+    Refined reason: 9968
+    Introduced reason: 3088
+    Literals introduced: 309779
+  [Thread 8]
+    Time in seconds
+      Total  : 800.844
+      Propagation: 511.792
+      Check  : 251.968
+      Undo   : 37.0844
+    Refined reason: 55714
+    Introduced reason: 4800
+    Literals introduced: 515121
+  [Thread 9]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 10]
+    Time in seconds
+      Total  : 730.775
+      Propagation: 463.223
+      Check  : 234.308
+      Undo   : 33.2443
+    Refined reason: 47359
+    Introduced reason: 8213
+    Literals introduced: 671224
+  [Thread 11]
+    Time in seconds
+      Total  : 464.941
+      Propagation: 295.86
+      Check  : 138.862
+      Undo   : 30.2196
+    Refined reason: 4462
+    Introduced reason: 3253
+    Literals introduced: 312709
+  [Thread 12]
+    Time in seconds
+      Total  : 503.106
+      Propagation: 325.507
+      Check  : 146.645
+      Undo   : 30.9531
+    Refined reason: 6779
+    Introduced reason: 3093
+    Literals introduced: 357050
+  [Thread 13]
+    Time in seconds
+      Total  : 440.009
+      Propagation: 270.461
+      Check  : 140.637
+      Undo   : 28.9112
+    Refined reason: 5573
+    Introduced reason: 3573
+    Literals introduced: 312885
+  [Thread 14]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 15]
+    Time in seconds
+      Total  : 1139.94
+      Propagation: 797.586
+      Check  : 314.262
+      Undo   : 28.0924
+    Refined reason: 122372
+    Introduced reason: 9335
+    Literals introduced: 669084
+  [Thread 16]
+    Time in seconds
+      Total  : 583.795
+      Propagation: 452.153
+      Check  : 113.161
+      Undo   : 18.481
+    Refined reason: 28525
+    Introduced reason: 12962
+    Literals introduced: 2.44018e+06
+  [Thread 17]
+    Time in seconds
+      Total  : 616.152
+      Propagation: 398.184
+      Check  : 184.256
+      Undo   : 33.7119
+    Refined reason: 23136
+    Introduced reason: 5516
+    Literals introduced: 584169
+  [Thread 18]
+    Time in seconds
+      Total  : 669.097
+      Propagation: 399.069
+      Check  : 231.929
+      Undo   : 38.0987
+    Refined reason: 38820
+    Introduced reason: 5181
+    Literals introduced: 413316
+  [Thread 19]
+    Time in seconds
+      Total  : 650.129
+      Propagation: 406.153
+      Check  : 208.406
+      Undo   : 35.569
+    Refined reason: 38622
+    Introduced reason: 4480
+    Literals introduced: 446435
+  [Thread 20]
+    Time in seconds
+      Total  : 573.791
+      Propagation: 358.366
+      Check  : 178.655
+      Undo   : 36.7703
+    Refined reason: 13204
+    Introduced reason: 3362
+    Literals introduced: 329368
+  [Thread 21]
+    Time in seconds
+      Total  : 1158.9
+      Propagation: 804.279
+      Check  : 323.002
+      Undo   : 31.6197
+    Refined reason: 120142
+    Introduced reason: 8928
+    Literals introduced: 668286
+  [Thread 22]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 23]
+    Time in seconds
+      Total  : 592.055
+      Propagation: 360.162
+      Check  : 191.78
+      Undo   : 40.1137
+    Refined reason: 9066
+    Introduced reason: 3258
+    Literals introduced: 312694
+  [Thread 24]
+    Time in seconds
+      Total  : 807.125
+      Propagation: 508.074
+      Check  : 260.417
+      Undo   : 38.6346
+    Refined reason: 58806
+    Introduced reason: 4849
+    Literals introduced: 542478
+  [Thread 25]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 26]
+    Time in seconds
+      Total  : 702.18
+      Propagation: 424.472
+      Check  : 242.808
+      Undo   : 34.8998
+    Refined reason: 48604
+    Introduced reason: 8004
+    Literals introduced: 625904
+  [Thread 27]
+    Time in seconds
+      Total  : 481.019
+      Propagation: 297.469
+      Check  : 151.762
+      Undo   : 31.788
+    Refined reason: 5589
+    Introduced reason: 3447
+    Literals introduced: 317901
+  [Thread 28]
+    Time in seconds
+      Total  : 513.337
+      Propagation: 324.317
+      Check  : 155.606
+      Undo   : 33.4139
+    Refined reason: 4808
+    Introduced reason: 2794
+    Literals introduced: 299085
+  [Thread 29]
+    Time in seconds
+      Total  : 447.281
+      Propagation: 281.99
+      Check  : 136.952
+      Undo   : 28.3395
+    Refined reason: 5093
+    Introduced reason: 3655
+    Literals introduced: 310382
+  [Thread 30]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 31]
+    Time in seconds
+      Total  : 1149.43
+      Propagation: 800.937
+      Check  : 318.77
+      Undo   : 29.7203
+    Refined reason: 118155
+    Introduced reason: 9330
+    Literals introduced: 659743
+  [Thread 32]
+    Time in seconds
+      Total  : 557.502
+      Propagation: 426.593
+      Check  : 111.851
+      Undo   : 19.0582
+    Refined reason: 22920
+    Introduced reason: 12563
+    Literals introduced: 1.69054e+06
+  [Thread 33]
+    Time in seconds
+      Total  : 568.271
+      Propagation: 364.176
+      Check  : 173.017
+      Undo   : 31.0778
+    Refined reason: 23129
+    Introduced reason: 4963
+    Literals introduced: 504310
+  [Thread 34]
+    Time in seconds
+      Total  : 690.015
+      Propagation: 426.137
+      Check  : 227.541
+      Undo   : 36.3365
+    Refined reason: 37847
+    Introduced reason: 5141
+    Literals introduced: 396654
+  [Thread 35]
+    Time in seconds
+      Total  : 671.917
+      Propagation: 425.964
+      Check  : 211.28
+      Undo   : 34.6729
+    Refined reason: 40802
+    Introduced reason: 4684
+    Literals introduced: 461896
+  [Thread 36]
+    Time in seconds
+      Total  : 580.257
+      Propagation: 358.476
+      Check  : 187.064
+      Undo   : 34.717
+    Refined reason: 20367
+    Introduced reason: 4228
+    Literals introduced: 379588
+  [Thread 37]
+    Time in seconds
+      Total  : 1149.67
+      Propagation: 796.79
+      Check  : 322.58
+      Undo   : 30.3038
+    Refined reason: 117543
+    Introduced reason: 9123
+    Literals introduced: 636277
+  [Thread 38]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 39]
+    Time in seconds
+      Total  : 546.877
+      Propagation: 341.415
+      Check  : 171.64
+      Undo   : 33.8222
+    Refined reason: 9435
+    Introduced reason: 2865
+    Literals introduced: 286224
+  [Thread 40]
+    Time in seconds
+      Total  : 766.174
+      Propagation: 492.707
+      Check  : 239.942
+      Undo   : 33.5245
+    Refined reason: 50039
+    Introduced reason: 5026
+    Literals introduced: 561711
+  [Thread 41]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 42]
+    Time in seconds
+      Total  : 668.811
+      Propagation: 421.619
+      Check  : 215.385
+      Undo   : 31.8067
+    Refined reason: 43406
+    Introduced reason: 7447
+    Literals introduced: 631430
+  [Thread 43]
+    Time in seconds
+      Total  : 459.829
+      Propagation: 290.497
+      Check  : 140.367
+      Undo   : 28.9643
+    Refined reason: 3317
+    Introduced reason: 2855
+    Literals introduced: 275920
+  [Thread 44]
+    Time in seconds
+      Total  : 466.79
+      Propagation: 292.022
+      Check  : 145.022
+      Undo   : 29.7462
+    Refined reason: 8066
+    Introduced reason: 3567
+    Literals introduced: 389585
+  [Thread 45]
+    Time in seconds
+      Total  : 421.025
+      Propagation: 265.824
+      Check  : 129.502
+      Undo   : 25.6996
+    Refined reason: 5034
+    Introduced reason: 3478
+    Literals introduced: 335785
+  [Thread 46]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 47]
+    Time in seconds
+      Total  : 1161.61
+      Propagation: 802.061
+      Check  : 329.522
+      Undo   : 30.0288
+    Refined reason: 121146
+    Introduced reason: 9107
+    Literals introduced: 644463
+  [Thread 48]
+    Time in seconds
+      Total  : 537.133
+      Propagation: 414.203
+      Check  : 104.802
+      Undo   : 18.1273
+    Refined reason: 25036
+    Introduced reason: 13251
+    Literals introduced: 1.68914e+06
+  [Thread 49]
+    Time in seconds
+      Total  : 523.51
+      Propagation: 324.629
+      Check  : 169.554
+      Undo   : 29.3261
+    Refined reason: 22168
+    Introduced reason: 4800
+    Literals introduced: 449113
+  [Thread 50]
+    Time in seconds
+      Total  : 605.246
+      Propagation: 377.526
+      Check  : 197.03
+      Undo   : 30.6902
+    Refined reason: 35949
+    Introduced reason: 5245
+    Literals introduced: 455346
+  [Thread 51]
+    Time in seconds
+      Total  : 693.371
+      Propagation: 415.983
+      Check  : 242.621
+      Undo   : 34.7677
+    Refined reason: 59588
+    Introduced reason: 5512
+    Literals introduced: 478845
+  [Thread 52]
+    Time in seconds
+      Total  : 576.368
+      Propagation: 366.056
+      Check  : 178.097
+      Undo   : 32.2148
+    Refined reason: 19036
+    Introduced reason: 4012
+    Literals introduced: 407545
+  [Thread 53]
+    Time in seconds
+      Total  : 1148.54
+      Propagation: 800.439
+      Check  : 319.056
+      Undo   : 29.0463
+    Refined reason: 120104
+    Introduced reason: 8717
+    Literals introduced: 647463
+  [Thread 54]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 55]
+    Time in seconds
+      Total  : 537.182
+      Propagation: 334.554
+      Check  : 169.978
+      Undo   : 32.6492
+    Refined reason: 9919
+    Introduced reason: 3360
+    Literals introduced: 332970
+  [Thread 56]
+    Time in seconds
+      Total  : 782.329
+      Propagation: 499.614
+      Check  : 247.175
+      Undo   : 35.5394
+    Refined reason: 57407
+    Introduced reason: 4659
+    Literals introduced: 498472
+  [Thread 57]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 58]
+    Time in seconds
+      Total  : 577.463
+      Propagation: 358.289
+      Check  : 190.241
+      Undo   : 28.9338
+    Refined reason: 37803
+    Introduced reason: 6530
+    Literals introduced: 507811
+  [Thread 59]
+    Time in seconds
+      Total  : 466.94
+      Propagation: 284.441
+      Check  : 151.928
+      Undo   : 30.5703
+    Refined reason: 6053
+    Introduced reason: 3700
+    Literals introduced: 382472
+  [Thread 60]
+    Time in seconds
+      Total  : 510.151
+      Propagation: 339.83
+      Check  : 140.618
+      Undo   : 29.7031
+    Refined reason: 5635
+    Introduced reason: 3192
+    Literals introduced: 327262
+  [Thread 61]
+    Time in seconds
+      Total  : 477.423
+      Propagation: 302.177
+      Check  : 145.918
+      Undo   : 29.3283
+    Refined reason: 4330
+    Introduced reason: 3029
+    Literals introduced: 284070
+  [Thread 62]
+    Time in seconds
+      Total  : 0
+      Propagation: 0
+      Check  : 0
+      Undo   : 0
+    Refined reason: 0
+    Introduced reason: 0
+    Literals introduced: 0
+  [Thread 63]
+    Time in seconds
+      Total  : 1160.01
+      Propagation: 815.505
+      Check  : 315.501
+      Undo   : 29.0017
+    Refined reason: 124538
+    Introduced reason: 9081
+    Literals introduced: 642047

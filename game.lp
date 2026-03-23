@@ -28,13 +28,13 @@ item(uranium_235).
 item(uranium_238).
 item(concrete).
 item(uranium_fuel_cell).
-item(red_science).
-item(green_science).
-item(gray_science).
-item(blue_science).
-item(pink_science).
-item(yellow_science).
-item(space_science).
+% item(red_science).
+% item(green_science).
+% item(gray_science).
+% item(blue_science).
+% item(pink_science).
+% item(yellow_science).
+% item(space_science).
 
 item(water).
 item(crude_oil).
@@ -535,6 +535,3 @@ building_in(uranium_fuel_cell_assembler, uranium_235, 3).
 building_in(uranium_fuel_cell_assembler, uranium_238, 57).
 building_in(uranium_fuel_cell_assembler, electricity, 16).
 building_out(uranium_fuel_cell_assembler, uranium_fuel_cell, 30).
-
-%init_local_cap(copper_cable, Z, 500) :- zone(Z).
-%init_global_cap(copper_cable, 500).
