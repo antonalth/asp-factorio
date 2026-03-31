@@ -1,2 +1,2 @@
 # Factorio modeling using Answer Set Programming (ASP)
-Software project (SPP) at RWTH Aachen (2026)
+Software project (SPP) for CS Bachelor at RWTH Aachen (2026)
